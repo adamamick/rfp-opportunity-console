@@ -138,6 +138,23 @@ In Render:
 - `Settings` -> `Access Control`
 - Turn on authentication so only your team can open it.
 
+## Netlify + Backend (Recommended split)
+If frontend is on Netlify, deploy backend separately (Render) and point the frontend to it.
+
+1. Deploy backend on Render using this repo:
+   - Start command: `./start.sh`
+2. Copy backend URL, for example:
+   - `https://rfp-opportunity-console.onrender.com`
+3. In `web/config.js`, set:
+```js
+window.APP_CONFIG = {
+  API_BASE: "https://rfp-opportunity-console.onrender.com"
+};
+```
+4. Commit and push so Netlify redeploys.
+
+Now the Generate button on Netlify will call the backend API.
+
 ## Default Feed Sources
 - `https://www.natronacounty-wy.gov/RSSFeed.aspx?ModID=76&CID=All-0`
 - `https://www.natronacounty-wy.gov/RSSFeed.aspx?ModID=1&CID=All-newsflash.xml`

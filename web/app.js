@@ -8,6 +8,11 @@ const summaryEl = document.getElementById("summary");
 const resultsEl = document.getElementById("results");
 const resultsMetaEl = document.getElementById("resultsMeta");
 const cardTemplate = document.getElementById("cardTemplate");
+const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE ? window.APP_CONFIG.API_BASE : "").replace(/\/$/, "");
+
+function apiUrl(path) {
+  return `${API_BASE}${path}`;
+}
 
 function setStatus(text) {
   statusEl.textContent = text;
@@ -15,7 +20,7 @@ function setStatus(text) {
 
 async function pingServer() {
   try {
-    const res = await fetch("/api/ping");
+    const res = await fetch(apiUrl("/api/ping"));
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}`);
     }
@@ -76,12 +81,16 @@ function renderResults(items) {
 async function loadLatest() {
   const alive = await pingServer();
   if (!alive) {
-    setStatus("Server connection failed. Start server with: python3 src/dashboard_server.py --open");
+    if (!API_BASE && window.location.hostname.includes("netlify")) {
+      setStatus("Backend not configured. Set web/config.js API_BASE to your deployed backend URL.");
+    } else {
+      setStatus("Server connection failed. Start server with: python3 src/dashboard_server.py --open");
+    }
     return;
   }
 
   try {
-    const res = await fetch("/api/latest");
+    const res = await fetch(apiUrl("/api/latest"));
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}`);
     }
@@ -110,7 +119,7 @@ async function generate() {
   };
 
   try {
-    const res = await fetch("/api/generate", {
+    const res = await fetch(apiUrl("/api/generate"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
