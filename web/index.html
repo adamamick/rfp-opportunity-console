@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wyoming Building Supply Opportunity Console</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-top">
+    <p>50 Years of Helping You Build Better</p>
+  </header>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="https://wyomingbuildingsupply.com/" target="_blank" rel="noreferrer" class="brand">
+        <img src="https://wyomingbuildingsupply.com/images/navbar-logo.png" alt="Wyoming Building Supply" />
+      </a>
+      <p class="nav-label">Opportunity Console</p>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <header class="hero panel">
+      <p class="eyebrow">Natrona County Procurement Monitor</p>
+      <h1>Wyoming Building Supply Opportunity Dashboard</h1>
+      <p class="subtitle">Run on-demand scans and review opportunities in one branded internal view.</p>
+    </header>
+
+    <section class="controls panel">
+      <div class="row">
+        <label>
+          <span>Minimum Level</span>
+          <select id="minLevel">
+            <option value="MEDIUM" selected>MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+            <option value="LOW">LOW</option>
+          </select>
+        </label>
+        <label>
+          <span>Lookback (days)</span>
+          <input id="days" type="number" min="1" max="365" value="90" />
+        </label>
+        <label>
+          <span>Max Items</span>
+          <input id="maxItems" type="number" min="10" max="500" value="300" />
+        </label>
+      </div>
+      <div class="row">
+        <label class="inline">
+          <input id="useCached" type="checkbox" checked />
+          <span>Use cached feed files (stable local demo)</span>
+        </label>
+        <button id="generateBtn" class="action">Generate Opportunities</button>
+      </div>
+      <p id="status" class="status">Ready.</p>
+    </section>
+
+    <section id="summary" class="summary-grid"></section>
+
+    <section class="panel">
+      <div class="results-head">
+        <h2>Opportunities</h2>
+        <p id="resultsMeta"></p>
+      </div>
+      <div id="results" class="results"></div>
+    </section>
+  </main>
+
+  <template id="cardTemplate">
+    <article class="card">
+      <div class="card-top">
+        <span class="badge"></span>
+        <span class="score"></span>
+      </div>
+      <h3 class="title"></h3>
+      <p class="meta"></p>
+      <p class="terms"></p>
+      <a class="link" target="_blank" rel="noreferrer">Open Source Item</a>
+    </article>
+  </template>
+
+  <script src="./app.js"></script>
+</body>
+</html>
